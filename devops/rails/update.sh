@@ -12,15 +12,13 @@ else
     RAILS_ENV="development"
 fi
 
-# Carregar variáveis de ambiente para o shell atual
 set -a
 source "$ENV_FILE"
 set +a
 
-
-
 echo "Executando migrações no banco de dados para $RAILS_ENV..."
 docker compose run web rails db:migrate RAILS_ENV=$RAILS_ENV
+
 
 if [ "$1" != "production" ]; then
     echo "Running RSpec tests..."
