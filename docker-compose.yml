@@ -24,8 +24,10 @@ services:
       - "${CHAT_APP_PORT:-3000}:${CHAT_APP_PORT:-3000}"
     depends_on:
       - db
-    env_file:
-      - .env.${RAILS_ENV}
+    environment:
+      RAILS_ENV: ${RAILS_ENV:-development}  # Default to development if not set
+      DATABASE_URL: "postgresql://${CHAT_APP_DATABASE_USERNAME}:${CHAT_APP_DATABASE_PASSWORD}@${CHAT_APP_DATABASE_HOST}:5432/${CHAT_APP_DATABASE_NAME}"
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
 
   rspec:
     build: .
@@ -34,8 +36,6 @@ services:
       - .:/myapp
     depends_on:
       - db
-    env_file:
-      - .env.${RAILS_ENV}
 
 volumes:
   db-data:

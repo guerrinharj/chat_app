@@ -1,40 +1,31 @@
 #!/bin/zsh
 
-# Exit on errors
 set -e
 
-# Determine the environment
 if [ "$1" = "production" ]; then
-    echo "Setting up the production environment..."
-    ENV_FILE="./.env.production"
+    echo "Ambiente: production"
+    cp .env.production .env
     RAILS_ENV="production"
 else
-    echo "Setting up the development environment..."
-    ENV_FILE="./.env.development"
+    echo "Ambiente: development"
+    cp .env.development .env
     RAILS_ENV="development"
 fi
 
-# Load environment variables
 set -a
-. "$ENV_FILE"
+source "$ENV_FILE"
 set +a
 
-# Grant execute permissions
-chmod +x ./devops/rails/update.sh
-
-# Conditional database operations
-echo "Running database commands for $RAILS_ENV..."
+echo "Executando migrações no banco de dados para $RAILS_ENV..."
 docker compose run web rails db:migrate RAILS_ENV=$RAILS_ENV
 
 
-# Run RSpec tests
 if [ "$1" != "production" ]; then
     echo "Running RSpec tests..."
     docker compose run web rspec
 fi
 
-# Clean up
-echo "Pruning stopped containers..."
+echo "Removendo containers parados..."
 docker container prune -f
 
-echo "Done."
+echo "Atualização finalizada para $RAILS_ENV."

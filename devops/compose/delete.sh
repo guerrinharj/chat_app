@@ -8,7 +8,7 @@ else
     ENV_FILE="./.env.development"
 fi
 
-echo "Loading environment from $ENV_FILE"
+echo "Ambiente $ENV_FILE"
 
 set -a
 . "$ENV_FILE"
@@ -16,7 +16,7 @@ set +a
 
 chmod +x ./devops/compose/delete.sh
 
-echo "Stopping and removing Docker containers..."
+echo "Parando e removendo Docker containers..."
 docker compose down --remove-orphans --volumes --rmi=all
 
-echo "All services have been stopped and removed."
+echo "Todos services foram parados e removidos."

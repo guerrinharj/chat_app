@@ -18,13 +18,13 @@ set +a
 
 chmod +x ./devops/compose/build.sh
 
-echo "Building Docker images..."
+echo "Buildando Docker ..."
 docker compose build
 
 
-echo "Running bundle install in the web service..."
+echo "Rodando bundle install no service web..."
 docker compose run web bundle install
 
 
-echo "Generating RSpec configuration..."
+echo "Configurando RSpec..."
 docker compose run web rails generate rspec:install

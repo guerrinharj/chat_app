@@ -18,8 +18,7 @@ set -a
 . "$ENV_FILE"
 set +a
 
-chmod +x ./devops/rails/server.sh
 
-rm -rf tmp/pids
+chmod +x ./devops/rails/console.sh
 
-docker compose exec web bundle exec rails s -b '0.0.0.0' -p ${CHAT_APP_PORT:-3000}
+docker compose exec web rails c

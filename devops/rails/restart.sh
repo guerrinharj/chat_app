@@ -1,48 +1,35 @@
 #!/bin/zsh
-
-# Exit on errors
 set -e
 
-# Determine the environment
 if [ "$1" = "production" ]; then
-    echo "Setting up the production environment..."
-    ENV_FILE="./.env.production"
+    echo "Ambiente: production"
+    cp .env.production .env
     RAILS_ENV="production"
 else
-    echo "Setting up the development environment..."
-    ENV_FILE="./.env.development"
+    echo "Ambiente: development"
+    cp .env.development .env
     RAILS_ENV="development"
 fi
 
-# Load environment variables
 set -a
-. "$ENV_FILE"
+source .env
 set +a
 
-# Grant execute permissions
-chmod +x ./devops/rails/restart.sh
+echo "Subindo containers..."
+docker compose down -v
+docker compose up -d --build
 
-# Install gems
-echo "Installing gems..."
-bundle install
-docker compose run web bundle install
+echo "Instalando gems..."
+docker compose run --rm web bundle install
 
-echo "Running database commands for $RAILS_ENV..."
-docker compose run -e DISABLE_DATABASE_ENVIRONMENT_CHECK=1 web rails db:drop RAILS_ENV=$RAILS_ENV 
-docker compose run web rails db:create RAILS_ENV=$RAILS_ENV
-docker compose run web rails db:migrate RAILS_ENV=$RAILS_ENV
-docker compose run web rake user:create RAILS_ENV=$RAILS_ENV
-docker compose run web rails db:seed RAILS_ENV=$RAILS_ENV
+echo "Resetando banco de dados..."
+docker compose run --rm -e RAILS_ENV=$RAILS_ENV -e DISABLE_DATABASE_ENVIRONMENT_CHECK=1 web rails db:drop
+docker compose run --rm -e RAILS_ENV=$RAILS_ENV web rails db:create
 
+echo "Executando migrações..."
+docker compose run --rm -e RAILS_ENV=$RAILS_ENV web rails db:migrate
 
-# Run RSpec tests
-if [ "$1" != "production" ]; then
-    echo "Running RSpec tests..."
-    docker compose run web rspec
-fi
+echo "Executando seed inicial..."
+docker compose run --rm -e RAILS_ENV=$RAILS_ENV web rails db:seed
 
-# Clean up
-echo "Pruning stopped containers..."
-docker container prune -f
-
-echo "Done."
+echo "✅ Banco de dados reiniciado com sucesso para $RAILS_ENV."
