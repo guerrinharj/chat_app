@@ -12,13 +12,9 @@ set -a
 . "$ENV_FILE"
 set +a
 
-echo "Running in $RAILS_ENV environment."
+echo "Ambiente $RAILS_ENV "
 
 chmod +x ./devops/compose/exec.sh
 
-echo "Starting an interactive shell in the web container."
+echo "Abrindo shell do web container..."
 docker compose exec web bash
-
-echo "Installing gems in the web container..."
-docker compose exec web bash -c "bundle install"
-
