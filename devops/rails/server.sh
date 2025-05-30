@@ -3,10 +3,12 @@
 set -e
 
 if [ "$1" = "production" ]; then
-    ENV_FILE="./.env.production"
+    echo "Ambiente: production"
+    cp .env.production .env
     RAILS_ENV="production"
 else
-    ENV_FILE="./.env.development"
+    echo "Ambiente: development"
+    cp .env.development .env
     RAILS_ENV="development"
 fi
 

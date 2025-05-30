@@ -16,9 +16,6 @@ RUN bundle install
 # Copy the rest of the application code
 COPY . .
 
-# Precompile assets and set up the entrypoint
-RUN bundle exec rake assets:precompile
-
 # Expose the port defined by the environment variable (or default to 3000)
 EXPOSE 3000
 

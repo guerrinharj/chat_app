@@ -1,26 +1,26 @@
 #!/bin/zsh
-
 set -e
 
-# Define environment and .env file
 if [ "$1" = "production" ]; then
     echo "Ambiente: production"
-    ENV_FILE=".env.production"
+    cp .env.production .env
     RAILS_ENV="production"
 else
     echo "Ambiente: development"
-    ENV_FILE=".env.development"
+    cp .env.development .env
     RAILS_ENV="development"
 fi
 
-# Load env variables
 set -a
-source "$ENV_FILE"
+source .env
 set +a
 
+echo "Subindo containers..."
+docker compose down -v
+docker compose up -d --build
+
 echo "Instalando gems..."
-bundle install
-docker compose run --rm -e RAILS_ENV=$RAILS_ENV web bundle install
+docker compose run --rm web bundle install
 
 echo "Resetando banco de dados..."
 docker compose run --rm -e RAILS_ENV=$RAILS_ENV -e DISABLE_DATABASE_ENVIRONMENT_CHECK=1 web rails db:drop

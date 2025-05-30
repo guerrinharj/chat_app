@@ -1,15 +1,26 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  host: <%= ENV["CHAT_APP_DATABASE_HOST"] %>
-  username: <%= ENV["CHAT_APP_DATABASE_USERNAME"] %>
-  password: <%= ENV["CHAT_APP_DATABASE_PASSWORD"] %>
-  pool: 5
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
+  port: 5432
 
 development:
   <<: *default
   database: chat_app_development
+  host: <%= ENV.fetch("CHAT_APP_DATABASE_HOST") %>
+  username: <%= ENV.fetch("CHAT_APP_DATABASE_USERNAME") %>
+  password: <%= ENV.fetch("CHAT_APP_DATABASE_PASSWORD") %>
+
+test:
+  <<: *default
+  database: chat_app_test
+  host: <%= ENV.fetch("CHAT_APP_DATABASE_HOST") %>
+  username: <%= ENV.fetch("CHAT_APP_DATABASE_USERNAME") %>
+  password: <%= ENV.fetch("CHAT_APP_DATABASE_PASSWORD") %>
 
 production:
   <<: *default
   database: chat_app_production
+  host: <%= ENV.fetch("CHAT_APP_DATABASE_HOST") %>
+  username: <%= ENV.fetch("CHAT_APP_DATABASE_USERNAME") %>
+  password: <%= ENV.fetch("CHAT_APP_DATABASE_PASSWORD") %>
