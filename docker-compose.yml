@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: ${CHAT_APP_DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${CHAT_APP_DATABASE_PASSWORD}
+      POSTGRES_DB: ${CHAT_APP_DATABASE_NAME}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: always
+
+  web:
+    build: .
+    stdin_open: true
+    tty: true
+    command: tail -f /dev/null
+    volumes:
+      - ".:/app"
+    ports:
+      - "${CHAT_APP_PORT:-3000}:${CHAT_APP_PORT:-3000}"
+    depends_on:
+      - db
+    env_file:
+      - .env.${RAILS_ENV}
+
+  rspec:
+    build: .
+    command: bash -c "rails db:environment:set RAILS_ENV=test && bundle exec rspec"
+    volumes:
+      - .:/myapp
+    depends_on:
+      - db
+    env_file:
+      - .env.${RAILS_ENV}
+
+volumes:
+  db-data:
