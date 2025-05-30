@@ -28,3 +28,7 @@ docker compose run web bundle install
 
 echo "Generating RSpec configuration..."
 docker compose run web rails generate rspec:install
+
+
+echo "Running Devise install (only if not already installed)..."
+docker compose run --rm web test -f config/initializers/devise.rb || docker compose run --rm web rails generate devise:install
