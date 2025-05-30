@@ -10,7 +10,7 @@ else
     RAILS_ENV="development"
 fi
 
-echo "Loading environment from $ENV_FILE"
+echo "Ambiente $ENV_FILE"
 
 set -a
 . "$ENV_FILE"

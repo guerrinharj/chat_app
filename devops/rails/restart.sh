@@ -2,6 +2,7 @@
 
 set -e
 
+# Define ambiente e arquivo .env
 if [ "$1" = "production" ]; then
     echo "Ambiente: production"
     ENV_FILE=".env.production"
@@ -12,32 +13,26 @@ else
     RAILS_ENV="development"
 fi
 
+# Carrega variáveis do .env para o shell
 set -a
 source "$ENV_FILE"
 set +a
 
-echo "Limpando banco de dados e arquivos antigos..."
-rm -f db/schema.rb
-find db/migrate -name '*usuario*.rb' -delete
-find db/migrate -name '*mensagem*.rb' -delete
-rm -f app/models/usuario.rb
-rm -f app/models/mensagem.rb
-rm -f app/controllers/usuarios_controller.rb
-rm -f app/controllers/mensagens_controller.rb
-rm -rf app/views/usuarios
-rm -rf app/views/mensagens
+echo "Instalando gems..."
+bundle install
+docker compose run --rm -e RAILS_ENV=$RAILS_ENV web bundle install
 
 echo "Resetando banco de dados..."
-docker compose exec web rails db:drop DISABLE_DATABASE_ENVIRONMENT_CHECK=1
-docker compose exec web rails db:create
+docker compose run --rm -e RAILS_ENV=$RAILS_ENV -e DISABLE_DATABASE_ENVIRONMENT_CHECK=1 web rails db:drop
+docker compose run --rm -e RAILS_ENV=$RAILS_ENV web rails db:create
 
 echo "Gerando model Usuario..."
-docker compose exec web rails generate model Usuario nome:string username:string email:string password_digest:string
+docker compose run --rm -e RAILS_ENV=$RAILS_ENV web rails generate model Usuario nome:string username:string email:string password_digest:string
 
 echo "Gerando model Mensagem..."
-docker compose exec web rails generate model Mensagem texto:text usuario:references
+docker compose run --rm -e RAILS_ENV=$RAILS_ENV web rails generate model Mensagem texto:text usuario:references
 
 echo "Executando migrações..."
-docker compose exec web rails db:migrate
+docker compose run --rm -e RAILS_ENV=$RAILS_ENV web rails db:migrate
 
 echo "Banco de dados reiniciado com sucesso para $RAILS_ENV."
