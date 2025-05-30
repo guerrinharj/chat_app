@@ -1,45 +1,39 @@
 #!/bin/zsh
 
-# Exit on any error
 set -e
 
-# Choose environment
 if [ "$1" = "production" ]; then
-  echo "Setting up the production environment..."
-  ENV_FILE=".env.production"
-  RAILS_ENV="production"
+    echo "⚙️  Ambiente: production"
+    ENV_FILE=".env.production"
+    RAILS_ENV="production"
 else
-  echo "Setting up the development environment..."
-  ENV_FILE=".env.development"
-  RAILS_ENV="development"
+    echo "⚙️  Ambiente: development"
+    ENV_FILE=".env.development"
+    RAILS_ENV="development"
 fi
 
-# Load environment variables
 set -a
-. "$ENV_FILE"
+source "$ENV_FILE"
 set +a
 
+echo "Limpando banco de dados anterior..."
+rm -f db/schema.rb
+find db/migrate -name '*usuario*.rb' -delete
+find db/migrate -name '*mensagem*.rb' -delete
 
-echo "Recreating database..."
-docker compose exec web bundle exec rails db:drop DISABLE_DATABASE_ENVIRONMENT_CHECK=1
-docker compose exec web bundle exec rails db:create
-docker compose exec web bundle exec rails db:migrate
+
+echo "Resetando banco de dados..."
+docker compose exec web rails db:drop DISABLE_DATABASE_ENVIRONMENT_CHECK=1
+docker compose exec web rails db:create
 
 
-if ! docker compose exec web test -f app/models/usuario.rb; then
-    echo "Generating Usuario model with Devise..."
-    docker compose exec web rails generate devise Usuario
-    docker compose exec web rails generate migration AddNomeAndUsernameToUsuarios nome:string username:string:uniq
-    docker compose exec web rails db:migrate
-fi
+echo "Gerando Usuario..."
+docker compose exec web rails generate model Usuario nome:string username:string email:string password_digest:string
 
-if [ "$RAILS_ENV" = "development" ]; then
-    echo "Running RSpec tests..."
-    docker compose run --rm rspec
-fi
+echo "Gerando Mensagem..."
+docker compose exec web rails generate model Mensagem texto:text usuario:references
 
-# Clean up stopped containers
-echo "Pruning stopped containers..."
-docker container prune -f
+echo "Migrando models..."
+docker compose exec web rails db:migrate
 
-echo "✅ Restart complete for $RAILS_ENV."
+echo "Banco de dados reiniciado com sucesso para $RAILS_ENV."

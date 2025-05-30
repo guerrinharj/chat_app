@@ -22,7 +22,6 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'byebug'
 gem 'pry-byebug'
 gem 'rake', '13.2.1'
-gem 'devise'
 
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
