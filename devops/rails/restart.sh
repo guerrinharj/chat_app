@@ -25,14 +25,17 @@ chmod +x ./devops/rails/restart.sh
 # Install gems
 echo "Installing gems..."
 bundle install
-docker compose run web bundle install
+docker compose exec web bundle install
+docker compose exec web rails generate devise:install
 
 echo "Running database commands for $RAILS_ENV..."
 docker compose run -e DISABLE_DATABASE_ENVIRONMENT_CHECK=1 web rails db:drop RAILS_ENV=$RAILS_ENV 
 docker compose run web rails db:create RAILS_ENV=$RAILS_ENV
-docker compose run web rails db:migrate RAILS_ENV=$RAILS_ENV
-docker compose run web rake user:create RAILS_ENV=$RAILS_ENV
-docker compose run web rails db:seed RAILS_ENV=$RAILS_ENV
+docker compose exec web rails generate devise Usuario RAILS_ENV=$RAILS_ENV
+docker compose exec web rails generate migration AddNomeAndUsernameToUsuarios nome:string username:string:uniq
+docker compose exec web rails db:migrate
+
+
 
 
 # Run RSpec tests

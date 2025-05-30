@@ -25,7 +25,7 @@ services:
     depends_on:
       - db
     env_file:
-      - .env.${RAILS_ENV}
+      - .env.${RAILS_ENV:-development}
 
   rspec:
     build: .
