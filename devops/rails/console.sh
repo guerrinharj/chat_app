@@ -5,20 +5,16 @@ set -e
 if [ "$1" = "production" ]; then
     echo "Ambiente: production"
     cp .env.production .env
-    RAILS_ENV="production"
+    export RAILS_ENV="production"
 else
     echo "Ambiente: development"
     cp .env.development .env
-    RAILS_ENV="development"
+    export RAILS_ENV="development"
 fi
 
-echo "Ambiente $ENV_FILE"
-
 set -a
-. "$ENV_FILE"
+source .env
 set +a
 
-
-chmod +x ./devops/rails/console.sh
-
-docker compose exec web rails c
+echo "Abrindo console para $RAILS_ENV..."
+docker compose exec -e RAILS_ENV=$RAILS_ENV web rails c
