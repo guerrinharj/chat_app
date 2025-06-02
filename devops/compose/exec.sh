@@ -3,13 +3,13 @@
 set -e
 
 if [ "$1" = "production" ]; then
-    ENV_FILE="./.env.production"
+    RAILS_ENV="./.env.production"
 else
-    ENV_FILE="./.env.development"
+    RAILS_ENV="./.env"
 fi
 
 set -a
-. "$ENV_FILE"
+. "$RAILS_ENV"
 set +a
 
 echo "Ambiente $RAILS_ENV "

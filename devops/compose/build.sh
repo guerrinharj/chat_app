@@ -5,15 +5,15 @@ set -e
 
 # Determine the environment
 if [ "$1" = "production" ]; then
-    ENV_FILE="./.env.production"
+    RAILS_ENV="./.env.production"
 else
-    ENV_FILE="./.env.development"
+    RAILS_ENV="./.env"
 fi
 
-echo "Loading environment from $ENV_FILE"
+echo "Loading environment from $RAILS_ENV"
 
 set -a
-. "$ENV_FILE"
+. "$RAILS_ENV"
 set +a
 
 chmod +x ./devops/compose/build.sh

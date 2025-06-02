@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_30_180309) do
+ActiveRecord::Schema[7.1].define(version: 2025_06_02_092452) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -29,6 +29,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_30_180309) do
     t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "login_attempts", default: 0
+    t.datetime "last_failed_login_at"
   end
 
   add_foreign_key "mensagems", "usuarios"
