@@ -3,17 +3,15 @@
 set -e
 
 if [ "$1" = "production" ]; then
-    echo "Ambiente: production"
-    cp .env.production .env
-    export RAILS_ENV="production"
+    RAILS_ENV="./.env.production"
 else
-    echo "Ambiente: development"
-    cp .env.development .env
-    export RAILS_ENV="development"
+    RAILS_ENV="./.env"
 fi
 
+echo "Loading environment from $RAILS_ENV"
+
 set -a
-source .env
+. "$RAILS_ENV"
 set +a
 
 echo "Abrindo console para $RAILS_ENV..."

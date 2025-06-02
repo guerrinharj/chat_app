@@ -3,15 +3,15 @@
 set -e
 
 if [ "$1" = "production" ]; then
-    ENV_FILE="./.env.production"
+    RAILS_ENV="./.env.production"
 else
-    ENV_FILE="./.env.development"
+    RAILS_ENV="./.env"
 fi
 
-echo "Loading environment from $ENV_FILE"
+echo "Loading environment from $RAILS_ENV"
 
 set -a
-. "$ENV_FILE"
+. "$RAILS_ENV"
 set +a
 
 chmod +x ./devops/compose/up.sh
@@ -22,4 +22,4 @@ docker container prune -f
 echo "Iniciando Docker containers..."
 docker compose up -d
 
-echo "Docker containers estão inicializados no ambiente $ENV_FILE e rodando no port ${CHAT_APP_PORT}."
+echo "Docker containers estão inicializados no ambiente $RAILS_ENV e rodando no port ${CHAT_APP_PORT}."

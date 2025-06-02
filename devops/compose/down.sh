@@ -5,7 +5,7 @@ set -e
 if [ "$1" = "production" ]; then
     ENV_FILE="./.env.production"
 else
-    ENV_FILE="./.env.development"
+    ENV_FILE="./.env"
 fi
 
 echo "Ambiente $ENV_FILE"

@@ -3,15 +3,15 @@
 set -e
 
 if [ "$1" = "production" ]; then
-    ENV_FILE="./.env.production"
+    RAILS_ENV="./.env.production"
 else
-    ENV_FILE="./.env.development"
+    RAILS_ENV="./.env"
 fi
 
-echo "Ambiente $ENV_FILE"
+echo "Ambiente $RAILS_ENV"
 
 set -a
-. "$ENV_FILE"
+. "$RAILS_ENV"
 set +a
 
 chmod +x ./devops/compose/delete.sh
