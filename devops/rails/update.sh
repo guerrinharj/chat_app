@@ -13,7 +13,7 @@ else
 fi
 
 set -a
-source "$ENV_FILE"
+source .env
 set +a
 
 echo "Executando migrações no banco de dados para $RAILS_ENV..."

@@ -12,10 +12,9 @@ else
     RAILS_ENV="development"
 fi
 
-echo "Ambiente $ENV_FILE"
 
 set -a
-. "$ENV_FILE"
+source .env
 set +a
 
 chmod +x ./devops/rails/server.sh
