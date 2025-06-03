@@ -3,15 +3,15 @@
 set -e
 
 if [ "$1" = "production" ]; then
-    RAILS_ENV="./.env.production"
+    ENV_FILE="./.env.production"
+    RAILS_ENV="production"
 else
-    RAILS_ENV="./.env"
+    ENV_FILE="./.env.development"
+    RAILS_ENV="development"
 fi
 
-echo "Loading environment from $RAILS_ENV"
-
 set -a
-. "$RAILS_ENV"
+. "$ENV_FILE"
 set +a
 
 chmod +x ./devops/compose/up.sh

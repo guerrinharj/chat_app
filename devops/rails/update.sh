@@ -3,24 +3,24 @@
 set -e
 
 if [ "$1" = "production" ]; then
-    RAILS_ENV="./.env.production"
+    ENV_FILE="./.env.production"
+    RAILS_ENV="production"
 else
-    RAILS_ENV="./.env"
+    ENV_FILE="./.env.development"
+    RAILS_ENV="development"
 fi
 
-echo "Loading environment from $RAILS_ENV"
 
 set -a
-. "$RAILS_ENV"
+. "$ENV_FILE"
 set +a
 
 echo "Executando migrações no banco de dados para $RAILS_ENV..."
-docker compose run web rails db:migrate RAILS_ENV=$RAILS_ENV
+docker compose run --rm -e RAILS_ENV=$RAILS_ENV web rails db:migrate
 
-
-if [ "$1" != "production" ]; then
+if [ "$RAILS_ENV" != "production" ]; then
     echo "Running RSpec tests..."
-    docker compose run web rspec
+    docker compose run --rm -e RAILS_ENV=$RAILS_ENV web rspec
 fi
 
 echo "Removendo containers parados..."

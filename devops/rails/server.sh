@@ -3,19 +3,19 @@
 set -e
 
 if [ "$1" = "production" ]; then
-    RAILS_ENV="./.env.production"
+    ENV_FILE="./.env.production"
+    RAILS_ENV="production"
 else
-    RAILS_ENV="./.env"
+    ENV_FILE="./.env.development"
+    RAILS_ENV="development"
 fi
 
-echo "Loading environment from $RAILS_ENV"
+echo "Ambiente: $RAILS_ENV"
 
 set -a
-. "$RAILS_ENV"
+. "$ENV_FILE"
 set +a
-
-chmod +x ./devops/rails/server.sh
 
 rm -rf tmp/pids
 
-docker compose exec web bundle exec rails s -b '0.0.0.0' -p ${CHAT_APP_PORT:-3000}
+docker compose exec -e RAILS_ENV=$RAILS_ENV web bundle exec rails s -b '0.0.0.0' -p ${CHAT_APP_PORT:-3000}
