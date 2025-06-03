@@ -4,8 +4,6 @@ class ChatChannel < ApplicationCable::Channel
     end
 
     def speak(data)
-        puts "🗨️ Método speak chamado com: #{data.inspect}" # <-- adicione isso
-
         usuario = connection.current_user
         return unless usuario
 
@@ -18,7 +16,7 @@ class ChatChannel < ApplicationCable::Channel
             id: usuario.id,
             username: usuario.username
             },
-            created_at: mensagem.created_at.strftime('%H:%M:%S')
+            created_at: mensagem.created_at.iso8601
         })
     end
 end
