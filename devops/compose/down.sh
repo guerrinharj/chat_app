@@ -13,7 +13,7 @@ fi
 echo "Ambiente $RAILS_ENV"
 
 set -a
-. "$RAILS_ENV"
+. "$ENV_FILE"
 set +a
 
 chmod +x ./devops/compose/down.sh
