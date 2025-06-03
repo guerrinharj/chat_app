@@ -4,16 +4,19 @@ class ChatChannel < ApplicationCable::Channel
     end
 
     def speak(data)
-        usuario = Usuario.find_by(id: connection.current_user&.id)
+        puts "🗨️ Método speak chamado com: #{data.inspect}" # <-- adicione isso
+
+        usuario = connection.current_user
         return unless usuario
 
         mensagem = usuario.mensagens.create(texto: data['texto'])
+
         ActionCable.server.broadcast("chat_channel", {
             id: mensagem.id,
             texto: mensagem.texto,
             usuario: {
-                id: usuario.id,
-                username: usuario.username
+            id: usuario.id,
+            username: usuario.username
             },
             created_at: mensagem.created_at.strftime('%H:%M:%S')
         })

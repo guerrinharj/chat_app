@@ -1,28 +1,22 @@
-# app/channels/application_cable/connection.rb
 module ApplicationCable
   class Connection < ActionCable::Connection::Base
-    identified_by :current_usuario
+    identified_by :current_user
 
     def connect
-      self.current_usuario = find_verified_user
+      self.current_user = find_verified_user
     end
 
     private
 
     def find_verified_user
-      if (user_id = cookies.encrypted[:usuario_id])
-        if (user = Usuario.find_by(id: user_id))
-          return user
-        end
-      end
+      token = request.params[:token]
+      user = Usuario.find_by(session_token: token)
 
-      if (token = request.params[:token])
-        if (user = Usuario.find_by(session_token: token))
-          return user
-        end
+      if user
+        user
+      else
+        reject_unauthorized_connection
       end
-
-      reject_unauthorized_connection
     end
   end
 end

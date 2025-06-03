@@ -1,5 +1,5 @@
 class Usuario < ApplicationRecord
-    has_many :mensagens, dependent: :destroy
+    has_many :mensagens, class_name: "Mensagem", dependent: :destroy
 
     has_secure_password
 
