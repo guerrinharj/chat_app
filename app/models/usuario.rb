@@ -17,4 +17,20 @@ class Usuario < ApplicationRecord
                 format: { with: URI::MailTo::EMAIL_REGEXP }
 
     validates :password, length: { in: 20..100 }, confirmation: true, if: :password_digest_changed?
+
+    before_create :generate_confirmation_token
+
+    def confirm!
+        update(confirmed_at: Time.current, confirmation_token: nil)
+    end
+
+    def confirmed?
+        confirmed_at.present?
+    end
+
+    private
+
+    def generate_confirmation_token
+        self.confirmation_token = SecureRandom.hex(20)
+    end
 end
