@@ -23,6 +23,8 @@ gem 'byebug'
 gem 'pry-byebug'
 gem 'rake', '13.2.1'
 gem 'redis', '~> 4.0'
+gem 'rack-cors', require: 'rack/cors'
+
 
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
