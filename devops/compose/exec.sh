@@ -3,18 +3,18 @@
 set -e
 
 if [ "$1" = "production" ]; then
-    RAILS_ENV="./.env.production"
+    ENV_FILE="./.env.production"
+    RAILS_ENV="production"
 else
-    RAILS_ENV="./.env"
+    ENV_FILE="./.env.development"
+    RAILS_ENV="development"
 fi
 
 set -a
-. "$RAILS_ENV"
+. "$ENV_FILE"
 set +a
-
-echo "Ambiente $RAILS_ENV "
 
 chmod +x ./devops/compose/exec.sh
 
-echo "Abrindo shell do web container..."
+echo "Abrindo shell em ambiente $RAILS_ENV do web container..."
 docker compose exec web bash

@@ -2,20 +2,18 @@
 set -e
 
 if [ "$1" = "production" ]; then
-    RAILS_ENV="./.env.production"
+    ENV_FILE="./.env.production"
+    RAILS_ENV="production"
 else
-    RAILS_ENV="./.env"
+    ENV_FILE="./.env.development"
+    RAILS_ENV="development"
 fi
 
-echo "Loading environment from $RAILS_ENV"
+echo "Ambiente $RAILS_ENV"
 
 set -a
-. "$RAILS_ENV"
+. "$ENV_FILE"
 set +a
-
-echo "Subindo containers..."
-docker compose down -v
-docker compose up -d --build
 
 echo "Instalando gems..."
 docker compose run --rm web bundle install
@@ -30,4 +28,4 @@ docker compose run --rm -e RAILS_ENV=$RAILS_ENV web rails db:migrate
 echo "Executando seed inicial..."
 docker compose run --rm -e RAILS_ENV=$RAILS_ENV web rails db:seed
 
-echo "✅ Banco de dados reiniciado com sucesso para $RAILS_ENV."
+echo "Banco de dados reiniciado com sucesso para $RAILS_ENV."
