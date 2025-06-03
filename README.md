@@ -13,17 +13,12 @@
     <li>Instale Docker Desktop: https://docs.docker.com/desktop/install/mac-install </li>
 </ul>
 
-#### Instale Docker parafor Linux
+#### Instale Docker para Linux
 <ul>
     <li>Desinstale docker engine: https://docs.docker.com/engine/install/ubuntu/#uninstall-docker-engine</li>
     <li>Instale docker engine: https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository</li>
     <li>Configure docker como non-root user: https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user</li>
     <li>Configure docker para startar no boot: https://docs.docker.com/engine/install/linux-postinstall/#configure-docker-to-start-on-boot</li>
-</ul>
-
-#### Instale Docker para Windows
-<ul>
-    <li>Você ? Docker não funciona bem com Windows. </li>
 </ul>
 
 #### Lembretes de passos com Docker
