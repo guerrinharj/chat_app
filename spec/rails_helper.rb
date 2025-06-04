@@ -38,6 +38,12 @@ RSpec.configure do |config|
     Rails.root.join('spec/fixtures')
   ]
 
+
+  config.include FactoryBot::Syntax::Methods
+  config.before(:each, type: :request) do
+    allow_any_instance_of(ActionController::Base).to receive(:verify_authenticity_token).and_return(true)
+  end
+
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.

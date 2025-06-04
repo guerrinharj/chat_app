@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :mensagem do
-    texto { "MyText" }
-    usuario { nil }
+    texto { "Esta é uma mensagem de teste." }
+    association :usuario
   end
 end
