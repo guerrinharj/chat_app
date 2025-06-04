@@ -1,0 +1,46 @@
+# LOGIN (POST)
+
+REQUEST:
+
+
+curl --location 'http://localhost:3000/api/v1/login' \
+--header 'Content-Type: application/json' \
+--header 'Cookie: _chat_app_session=9nVZhMRSW0FnytSThxxLmjEkFcz0nF2gC%2B84mf9cW%2FFy3ALYEUN%2FZeUMBftZI9GdbjqElkkUr7Rn9N5sWZXxf9R5%2Fcq1HbmgtbtLUdJIFLCvtmObxkUlfVY2lhJKO%2FQZzB3u7lfAvHlHCwbUcDphJ6gFkHi1qOhMXbXzs4ZBpyJX1G%2F97m8GmTknpWLK0uhgayTNNmNMNrtPzhLOLA%3D%3D--qTUDHn18tY%2FxnF0f--tmPECd2LYC0Sux5xmAWvUQ%3D%3D' \
+--data '{
+    "login": "gabrielguerra123",
+    "password": "12345678901234567890"
+}'
+
+
+RESPONSE (200):
+
+
+{
+    "message": "Login bem-sucedido",
+    "usuario": {
+        "id": 2,
+        "username": "gabrielguerra123",
+        "email": "gabrielpessoaguerracavalcanti@gmail.com"
+    },
+    "token": "a52a881c9d736c712be49f55485542df9ceec7b9"
+}
+
+
+# LOGOUT (DELETE)
+
+REQUEST:
+
+curl --location --request DELETE 'http://localhost:3000/api/v1/logout' \
+--header 'Content-Type: application/json' \
+--header 'Cookie: _chat_app_session=te9rJaxonT9W1ZrzURu6wi%2B2HCuVlABUEPFaJmJ2%2B7i3V8fjaYVN7Hmx3QsRZBABCvugf%2FYhiz2qS%2Fw9T4EddW6vj%2FiTNVbD0iseu0Q5Bx5o%2FYJ4Ek56B1D9s7hid%2FLz22eCrYP%2BsIe8WUEtMNARfTVNz46uCQP%2BibH4CheN%2F%2BbAjncEG2DJoM28ZvH%2BwXkH4kPBeuj2AzYSm1Qp4w%3D%3D--eTK1Tezap31Ivjb%2F--JPsbCAbfDIhS1f70gwD7lA%3D%3D' \
+--data '{
+    "login": "admin_user",
+    "password": "12345678901234567890"
+}'
+
+
+RESPONSE (200):
+
+{
+    "message": "Logout efetuado com sucesso"
+}

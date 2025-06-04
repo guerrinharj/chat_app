@@ -1,0 +1,101 @@
+# MENSAGENS (GET)
+
+****** É PRECISO ESTAR LOGADO PARA CONSEGUIR CRIAR MENSAGEM *********
+
+## REQUESTS
+
+
+curl --location 'http://localhost:3000/api/v1/mensagens' \
+--header 'Content-Type: application/json' \
+--header 'Cookie: c7d92feaa90a3184a61275b2eba331331720b338; _chat_app_session=CQkjx1IxCoKW70xfjIkDCGf9xSwsDZxTBDicUVc0F5l15VtJiGgvAXRWZ7IxjQR%2BhIyd0ecmuVp2NMd5akoUIySeqktRlRHSZutBjmyL%2B1p7iQoniH3g%2BQawYGH2Vn7wUn4x%2F%2BJ3gLMNP2MCObUnca0SdsD3Y9I6N3lKjICEYoIeHxn%2BBQITLbDTNIj0l15walYYfCf%2BlvPR8eYsNQ%3D%3D--Z9LnQsJLqn50XkQZ--WxPaBdJr43oZPrqxpCaegg%3D%3D'
+
+
+
+## RESPONSES (200)
+
+
+[
+    {
+        "id": 279,
+        "texto": "KOLEEE",
+        "usuario": {
+            "id": 454,
+            "username": "leglegla"
+        },
+        "created_at": "2025-06-04T10:15:06.452Z"
+    },
+    {
+        "id": 278,
+        "texto": "teste",
+        "usuario": {
+            "id": 2,
+            "username": "gabrielguerra123"
+        },
+        "created_at": "2025-06-04T10:08:45.390Z"
+    },
+    {
+        "id": 277,
+        "texto": "ola",
+        "usuario": {
+            "id": 2,
+            "username": "gabrielguerra123"
+        },
+        "created_at": "2025-06-04T10:03:12.395Z"
+    },
+    {
+        "id": 7,
+        "texto": "tu que es bobo",
+        "usuario": {
+            "id": 2,
+            "username": "gabrielguerra123"
+        },
+        "created_at": "2025-06-03T15:29:27.239Z"
+    },
+    {
+        "id": 6,
+        "texto": "vce h bobo",
+        "usuario": {
+            "id": 4,
+            "username": "bobobobo"
+        },
+        "created_at": "2025-06-03T15:29:17.241Z"
+    },]
+
+
+
+
+
+
+
+
+
+# CRIAR MENSAGEM (POST)
+
+****** É PRECISO ESTAR LOGADO PARA CONSEGUIR CRIAR MENSAGEM *********
+
+## REQUEST
+
+
+
+    curl --location 'http://localhost:3000/api/v1/mensagens' \
+--header 'Content-Type: application/json' \
+--header 'Cookie: _chat_app_session=%2FpwX8A2c5jckMMXDjpL9wD8IMI%2FPhippL1Jk3qgTxSsQ6krqG7eqDwtG%2BHUuq7WGclqin%2BkstXSlWjGHFzFTzgXrXsQ5CDw9pqSsQX76V3xyN1Muaz1VHloN7ayf3xdbi7AkLq11XJmsAjfPyjVACVS4hm7gRxzkYM%2F52QL56hCmiarmZnXR3lmbBwtUFLriwtMRdrxvGuLAuiGyOQ%3D%3D--LvOrthAoLEGRiZqn--lox%2BTh1QSKo%2BvbdBi8raPg%3D%3D; _chat_app_session=%2FpwX8A2c5jckMMXDjpL9wD8IMI%2FPhippL1Jk3qgTxSsQ6krqG7eqDwtG%2BHUuq7WGclqin%2BkstXSlWjGHFzFTzgXrXsQ5CDw9pqSsQX76V3xyN1Muaz1VHloN7ayf3xdbi7AkLq11XJmsAjfPyjVACVS4hm7gRxzkYM%2F52QL56hCmiarmZnXR3lmbBwtUFLriwtMRdrxvGuLAuiGyOQ%3D%3D--LvOrthAoLEGRiZqn--lox%2BTh1QSKo%2BvbdBi8raPg%3D%3D' \
+--data '{
+  "mensagem": {
+    "texto": "Minha primeira mensagem via cURL!"
+  }
+}'
+
+
+## RESPONSE (200)
+
+
+{
+    "id": 280,
+    "texto": "Minha primeira mensagem via cURL!",
+    "usuario": {
+        "id": 2,
+        "username": "gabrielguerra123"
+    },
+    "created_at": "2025-06-04T11:56:36.738Z"
+}

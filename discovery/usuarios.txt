@@ -1,0 +1,52 @@
+# REGISTRAR USUARIO (POST)
+
+
+## REQUEST
+
+curl --location 'http://localhost:3000/api/v1/usuarios' \
+--header 'Content-Type: application/json' \
+--header 'Cookie: _chat_app_session=te9rJaxonT9W1ZrzURu6wi%2B2HCuVlABUEPFaJmJ2%2B7i3V8fjaYVN7Hmx3QsRZBABCvugf%2FYhiz2qS%2Fw9T4EddW6vj%2FiTNVbD0iseu0Q5Bx5o%2FYJ4Ek56B1D9s7hid%2FLz22eCrYP%2BsIe8WUEtMNARfTVNz46uCQP%2BibH4CheN%2F%2BbAjncEG2DJoM28ZvH%2BwXkH4kPBeuj2AzYSm1Qp4w%3D%3D--eTK1Tezap31Ivjb%2F--JPsbCAbfDIhS1f70gwD7lA%3D%3D' \
+--data-raw '{
+    "usuario": {
+      "nome": "Gabriel Teste",
+      "username": "gabrielteste",
+      "email": "gaboloco@gmailab.com",
+      "password": "12345678901234567890",
+      "password_confirmation": "12345678901234567890"
+    }
+  }'
+
+
+
+
+  ## RESPONSE (200)
+
+
+  {
+    "message": "Usuário criado com sucesso. Verifique o e-mail para confirmar a conta.",
+    "confirmation_link": "http://localhost:3000/api/v1/confirmar_email?token=3bb543da771e142dff77afb69b41163424d0c580",
+    "usuario": {
+        "id": 455,
+        "username": "gabrielteste",
+        "email": "gaboloco@gmailab.com"
+    }
+}
+
+
+
+
+
+
+# CONFIRMAR USUARIO (GET)
+
+
+## REQUEST
+
+curl --location 'http://localhost:3000/api/v1/usuarios/confirmar?token=3bb543da771e142dff77afb69b41163424d0c580' \
+--header 'Cookie: _chat_app_session=te9rJaxonT9W1ZrzURu6wi%2B2HCuVlABUEPFaJmJ2%2B7i3V8fjaYVN7Hmx3QsRZBABCvugf%2FYhiz2qS%2Fw9T4EddW6vj%2FiTNVbD0iseu0Q5Bx5o%2FYJ4Ek56B1D9s7hid%2FLz22eCrYP%2BsIe8WUEtMNARfTVNz46uCQP%2BibH4CheN%2F%2BbAjncEG2DJoM28ZvH%2BwXkH4kPBeuj2AzYSm1Qp4w%3D%3D--eTK1Tezap31Ivjb%2F--JPsbCAbfDIhS1f70gwD7lA%3D%3D'
+
+## RESPONSE (200)
+
+{
+    "message": "Conta confirmada com sucesso."
+}
