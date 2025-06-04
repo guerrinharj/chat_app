@@ -20,7 +20,7 @@ module Api
                 end
             end
 
-            def confirmar_email
+            def confirmar
                 usuario = Usuario.find_by(confirmation_token: params[:token])
 
                 if usuario.present?

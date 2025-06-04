@@ -47,24 +47,27 @@ RSpec.describe "API V1 - Usuarios", type: :request do
         end
     end
 
-    describe "GET /api/v1/usuarios/:id/confirmar" do
-        context "com id válido" do
-            let(:usuario) { create(:usuario, :confirmed) }
+    describe "GET /api/v1/usuarios/confirmar" do
+        context "com token válido" do
+            let(:usuario) { create(:usuario) }
 
             it "confirma o usuário e retorna 200" do
-                get "/api/v1/usuarios/#{usuario.id}/confirmar", headers: { "HOST" => "localhost" }
+                get "/api/v1/usuarios/confirmar", params: { token: usuario.confirmation_token }, headers: { "HOST" => "localhost" }
 
                 expect(response).to have_http_status(:ok)
                 json = JSON.parse(response.body)
                 expect(json["message"]).to eq("Conta confirmada com sucesso.")
+                expect(usuario.reload.confirmed_at).not_to be_nil
             end
         end
 
-        context "com id inválido" do
+        context "com token inválido" do
             it "retorna 404 com erro" do
-                get "/api/v1/usuarios/99999/confirmar", headers: { "HOST" => "localhost" }
+                get "/api/v1/usuarios/confirmar", params: { token: "token_invalido" }, headers: { "HOST" => "localhost" }
 
                 expect(response).to have_http_status(:not_found)
+                json = JSON.parse(response.body)
+                expect(json["error"]).to eq("Token inválido ou expirado.")
             end
         end
     end
